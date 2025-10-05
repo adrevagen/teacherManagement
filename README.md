@@ -1,5 +1,32 @@
-# Vue 3 + TypeScript + Vite
+🚀 Features
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+📋 Add Teacher — Create and manage teacher profiles.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+🗓️ Schedule Management — Assign and manage teaching schedules for each teacher.
+
+💾 Frontend Data Store — Data is temporarily stored using Pinia, without any backend.
+
+🎨 Responsive UI — Built with Tailwind CSS for a clean and modern interface.
+
+⚙️ Tech Stack
+
+Vue 3 — Frontend framework
+
+Pinia — State management
+
+Tailwind CSS — Styling and layout
+
+🧠 Notes
+
+⚠️ This is an initial frontend-only phase of the teacher management system.
+The current version uses local state management for data storage.
+For better performance and permanent data storage, integration with a backend API is recommended (e.g., Laravel, NestJS, or Express).
+
+# install dependencies
+npm install
+
+# run the development server
+npm run dev
+
+# build for production
+npm run build
