@@ -1,39 +1,54 @@
 <template>
-  <div class="min-h-screen bg-gray-900 text-white p-6">
-    <h1 class="text-3xl font-bold mb-6 text-center">📅 My Scheduler</h1>
+  <div class="h-screen flex bg-gray-50">
 
-    <form @submit.prevent="addNew" class="bg-gray-800 p-4 rounded-lg mb-6 flex gap-4">
-      <input v-model="title" type="text" placeholder="Judul" class="p-2 rounded bg-gray-700 flex-1" required />
-      <input v-model="date" type="date" class="p-2 rounded bg-gray-700" required />
-      <input v-model="time" type="time" class="p-2 rounded bg-gray-700" required />
-      <button class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Tambah</button>
-    </form>
+    <Sidebar :isOpen="isSidebarOpen" />
 
-    <div v-if="store.schedules.length" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div v-for="s in store.schedules" :key="s.id" class="bg-gray-800 p-4 rounded-lg shadow-lg">
-        <h2 class="text-xl font-semibold">{{ s.title }}</h2>
-        <p class="text-sm text-gray-400">{{ s.date }} - {{ s.time }}</p>
-        <button @click="store.deleteSchedule(s.id)" class="mt-3 text-red-400 hover:text-red-500">Hapus</button>
-      </div>
+    <div
+      :class="[
+        'flex-1 flex flex-col transition-all duration-300',
+        isSidebarOpen ? 'ml-64' : 'ml-0'
+      ]"
+    >
+
+      <Topbar 
+        @toggleSidebar="toggleSidebar"
+        :notifications="['Notifikasi 1', 'Notifikasi 2']"
+        @logout="handleLogout"
+      />
+
+      <main class="p-6 overflow-y-auto flex-1">
+        <RouterView />
+      </main>
     </div>
 
-    <p v-else class="text-gray-400 text-center">Belum ada jadwal</p>
+    <Toast :visible="toast.show" :message="toast.message" :type="toast.type" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useScheduleStore } from './store/scheduleStore'
+import { ref } from "vue";
+import { RouterView } from "vue-router";
+import Sidebar from "./components/layouts/SideBar.vue";
+import Topbar from "./components/layouts/TopBar.vue";
+import Toast from "./components/Toast.vue";
 
-const store = useScheduleStore()
-const title = ref('')
-const date = ref('')
-const time = ref('')
+const isSidebarOpen = ref(true);
 
-function addNew() {
-  store.addSchedule({ title: title.value, date: date.value, time: time.value })
-  title.value = ''
-  date.value = ''
-  time.value = ''
+function toggleSidebar() {
+  isSidebarOpen.value = !isSidebarOpen.value;
 }
+
+function handleLogout() {
+  console.log("User logout");
+}
+
+const toast = ref<{
+  show: boolean;
+  message: string;
+  type: "success" | "info" | "warning";
+}>({
+  show: false,
+  message: "",
+  type: "success",
+});
 </script>

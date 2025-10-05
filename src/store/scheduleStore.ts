@@ -1,29 +1,27 @@
-import { defineStore } from 'pinia'
-import Cookies from 'js-cookie'
+// store/scheduleStore.ts
+import { defineStore } from "pinia"
 
-interface Schedule {
-  id: number
-  title: string
-  date: string
-  time: string
+export interface Schedule {
+  teacher: string
+  subject: string
+  day: string
+  timeStart: string
+  timeEnd: string
 }
 
-export const useScheduleStore = defineStore('schedule', {
+export const useScheduleStore = defineStore("schedule", {
   state: () => ({
     schedules: [] as Schedule[],
   }),
   actions: {
-    addSchedule(schedule: Omit<Schedule, 'id'>) {
-      this.schedules.push({ ...schedule, id: Date.now() })
+    addSchedule(schedule: Schedule) {
+      this.schedules.push(schedule)
     },
-    deleteSchedule(id: number) {
-      this.schedules = this.schedules.filter(s => s.id !== id)
+    editSchedule(index: number, schedule: Schedule) {
+      this.schedules[index] = schedule
     },
-  },
-  persist: {
-    storage: {
-      getItem: (key) => Cookies.get(key) || '[]',
-      setItem: (key, value) => Cookies.set(key, value, { expires: 30 }),
+    deleteSchedule(index: number) {
+      this.schedules.splice(index, 1)
     },
   },
 })
